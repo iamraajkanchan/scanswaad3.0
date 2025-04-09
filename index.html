@@ -3,14 +3,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ScanSwaad</title>
 
-  <!-- ✅ Use Tailwind via CDN -->
+  <!-- ✅ Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- ✅ Extend Tailwind with your custom animations -->
+  <!-- ✅ Custom Tailwind config for animations and colors -->
   <script>
     tailwind.config = {
       theme: {
         extend: {
+          colors: {
+            scan: '#F87171',     // light red
+            swaad: '#4ADE80',    // light green
+          },
           animation: {
             fadeIn: 'fadeIn 1s ease-out both',
             slideUp: 'slideUp 1s ease-out both',
@@ -27,7 +31,7 @@
           }
         }
       }
-    };
+    }
   </script>
 </head>
 
