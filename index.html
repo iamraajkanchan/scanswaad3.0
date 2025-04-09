@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -31,11 +33,13 @@
           }
         }
       }
-    }
+    };
   </script>
 </head>
 
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-gray-100 text-gray-900 font-sans">
+
+  <!-- 📦 Component placeholders -->
   <div id="navbar"></div>
   <div id="homepage"></div>
   <div id="features"></div>
@@ -44,12 +48,17 @@
   <div id="upgrade"></div>
   <div id="footer"></div>
 
-
+  <!-- 🔌 Load HTML components dynamically -->
   <script>
     async function loadComponent(id, file) {
-      const response = await fetch(`./components/${file}`);
-      const html = await response.text();
-      document.getElementById(id).innerHTML = html;
+      try {
+        const response = await fetch(`./components/${file}`);
+        if (!response.ok) throw new Error(`Failed to load ${file}`);
+        const html = await response.text();
+        document.getElementById(id).innerHTML = html;
+      } catch (error) {
+        console.error(`Error loading ${file}:`, error);
+      }
     }
 
     loadComponent('navbar', 'navbar.html');
@@ -61,4 +70,4 @@
     loadComponent('footer', 'footer.html');
   </script>
 </body>
-
+</html>
