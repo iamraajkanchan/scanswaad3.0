@@ -1,3 +1,36 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ScanSwaad</title>
+
+  <!-- ✅ Use Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- ✅ Extend Tailwind with your custom animations -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            fadeIn: 'fadeIn 1s ease-out both',
+            slideUp: 'slideUp 1s ease-out both',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideUp: {
+              '0%': { transform: 'translateY(30px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            },
+          }
+        }
+      }
+    };
+  </script>
+</head>
+
 <body class="bg-gray-100 text-gray-900">
   <div id="navbar"></div>
   <div id="homepage"></div>
