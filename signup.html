@@ -11,24 +11,24 @@
   <div class="bg-[#1E293B] p-8 rounded-2xl shadow-2xl w-full max-w-3xl space-y-6">
     <h2 class="text-3xl font-bold text-center text-white mb-4">Create Your Restaurant Account</h2>
 
-    <form class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <form id="signupForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <label class="text-sm">First Name</label>
-        <input type="text" placeholder="John" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
+        <input type="text" id="firstName" placeholder="John" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
       <div>
         <label class="text-sm">Last Name</label>
-        <input type="text" placeholder="Doe" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
+        <input type="text" id="lastName" placeholder="Doe" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
       <div class="md:col-span-2">
         <label class="text-sm">Restaurant Name</label>
-        <input type="text" placeholder="ScanSwaad Restaurant" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
+        <input type="text" id="restaurant" placeholder="ScanSwaad Restaurant" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
       <div>
         <label class="text-sm">Country</label>
-        <select class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
+        <select id="country" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
           <option>India</option>
           <option>USA</option>
           <option>Canada</option>
@@ -37,42 +37,42 @@
       </div>
       <div>
         <label class="text-sm">State / Province</label>
-        <input type="text" placeholder="Maharashtra" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
+        <input type="text" id="state" placeholder="Maharashtra" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
       <div>
         <label class="text-sm">City</label>
-        <input type="text" placeholder="Mumbai" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
+        <input type="text" id="city" placeholder="Mumbai" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
       <div>
         <label class="text-sm">Phone Number</label>
-        <input type="tel" placeholder="+91 9876543210" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
+        <input type="tel" id="phone" placeholder="+91 9876543210" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
       <div class="md:col-span-2">
         <label class="text-sm">Full Address</label>
-        <input type="text" placeholder="3/7 BMC Colony, Dr RP Road, Mulund West" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
+        <input type="text" id="address" placeholder="3/7 BMC Colony, Dr RP Road, Mulund West" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
       <div>
         <label class="text-sm">Pin Code / Zip</label>
-        <input type="text" placeholder="400080" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
+        <input type="text" id="pincode" placeholder="400080" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
       <div>
         <label class="text-sm">Email</label>
-        <input type="email" placeholder="you@example.com" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
+        <input type="email" id="email" placeholder="you@example.com" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
       <div>
         <label class="text-sm">Password</label>
-        <input type="password" placeholder="••••••••" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
+        <input type="password" id="password" placeholder="••••••••" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
       <div>
         <label class="text-sm">Confirm Password</label>
-        <input type="password" placeholder="••••••••" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
+        <input type="password" id="confirmPassword" placeholder="••••••••" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
       <div class="md:col-span-2">
@@ -88,11 +88,12 @@
     </p>
   </div>
 
-  <!-- Firebase Scripts -->
+  <!-- ✅ Firebase CDN Setup -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
 
+  <!-- ✅ Firebase Config -->
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyAXSrdwDDe8Gg6DCjQ_bPSXu-Sh8whPYsE",
@@ -103,25 +104,29 @@
       appId: "1:677748245747:web:3b893e0d07812121aae386"
     };
     firebase.initializeApp(firebaseConfig);
-
     const auth = firebase.auth();
     const db = firebase.firestore();
+  </script>
 
-    document.querySelector("form").addEventListener("submit", async function (e) {
+  <!-- ✅ Signup Script -->
+  <script>
+    document.getElementById("signupForm").addEventListener("submit", async function (e) {
       e.preventDefault();
 
-      const firstName = document.querySelector('input[placeholder="John"]').value;
-      const lastName = document.querySelector('input[placeholder="Doe"]').value;
-      const restaurant = document.querySelector('input[placeholder*="Restaurant"]').value;
-      const country = document.querySelector("select").value;
-      const state = document.querySelector('input[placeholder="Maharashtra"]').value;
-      const city = document.querySelector('input[placeholder="Mumbai"]').value;
-      const phone = document.querySelector('input[placeholder^="+91"]').value;
-      const address = document.querySelector('input[placeholder*="Dr RP Road"]').value;
-      const pincode = document.querySelector('input[placeholder="400080"]').value;
-      const email = document.querySelector('input[placeholder="you@example.com"]').value;
-      const password = document.querySelectorAll("input[type='password']")[0].value;
-      const confirmPassword = document.querySelectorAll("input[type='password']")[1].value;
+      const get = (id) => document.getElementById(id).value;
+
+      const firstName = get("firstName");
+      const lastName = get("lastName");
+      const restaurant = get("restaurant");
+      const country = get("country");
+      const state = get("state");
+      const city = get("city");
+      const phone = get("phone");
+      const address = get("address");
+      const pincode = get("pincode");
+      const email = get("email");
+      const password = get("password");
+      const confirmPassword = get("confirmPassword");
 
       if (password !== confirmPassword) {
         alert("Passwords do not match!");
@@ -150,7 +155,7 @@
         alert("Account created successfully!");
         window.location.href = "dashboard.html";
       } catch (error) {
-        alert("Error: " + error.message);
+        alert("Signup failed: " + error.message);
       }
     });
   </script>
