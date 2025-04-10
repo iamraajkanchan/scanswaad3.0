@@ -8,11 +8,17 @@
   <!-- ✅ Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- ✅ Custom Tailwind config for animations and colors -->
+  <!-- ✅ Google Font (Optional but modern) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- ✅ Custom Tailwind config for animations and theme colors -->
   <script>
     tailwind.config = {
       theme: {
         extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
           colors: {
             scan: '#F87171',     // light red
             swaad: '#4ADE80',    // light green
@@ -37,9 +43,9 @@
   </script>
 </head>
 
-<body class="bg-gray-100 text-gray-900 font-sans">
+<body class="bg-[#0F172A] text-white font-sans">
 
-  <!-- 📦 Component placeholders -->
+  <!-- 🔧 Component placeholders -->
   <div id="navbar"></div>
   <div id="homepage"></div>
   <div id="features"></div>
@@ -48,7 +54,7 @@
   <div id="upgrade"></div>
   <div id="footer"></div>
 
-  <!-- 🔌 Load HTML components dynamically -->
+  <!-- 🔌 Dynamically Load Components -->
   <script>
     async function loadComponent(id, file) {
       try {
