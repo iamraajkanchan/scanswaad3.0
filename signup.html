@@ -87,7 +87,7 @@
 
       <!-- Sign Up Button -->
       <div class="md:col-span-2">
-        <button class="w-full py-3 bg-gradient-to-r from-pink-500 to-blue-500 hover:from-pink-600 hover:to-blue-600 rounded-lg text-white font-bold">
+        <button type="submit" class="w-full py-3 bg-gradient-to-r from-pink-500 to-blue-500 hover:from-pink-600 hover:to-blue-600 rounded-lg text-white font-bold">
           Create Account
         </button>
       </div>
@@ -104,13 +104,24 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
-  <script src="firebase-config.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAXSrdwDDe8Gg6DCjQ_bPSXu-Sh8whPYsE",
+      authDomain: "scanswaad-28922.firebaseapp.com",
+      projectId: "scanswaad-28922",
+      storageBucket: "scanswaad-28922.appspot.com",
+      messagingSenderId: "677748245747",
+      appId: "1:677748245747:web:3b893e0d07812121aae386"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
 
   <script>
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    document.querySelector("button").addEventListener("click", async function (e) {
+    document.querySelector("form").addEventListener("submit", async function (e) {
       e.preventDefault();
 
       const firstName = document.querySelector('input[placeholder="John"]').value;
