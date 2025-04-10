@@ -29,7 +29,7 @@
     </div>
 
     <!-- Login Button -->
-    <button onclick="loginUser()" class="w-full py-3 bg-gradient-to-r from-pink-500 to-blue-500 hover:from-pink-600 hover:to-blue-600 rounded-lg text-white font-bold transition-all duration-300">
+    <button id="loginBtn" class="w-full py-3 bg-gradient-to-r from-pink-500 to-blue-500 hover:from-pink-600 hover:to-blue-600 rounded-lg text-white font-bold transition-all duration-300">
       Login
     </button>
 
@@ -49,20 +49,25 @@
   <script>
     const auth = firebase.auth();
 
-    function loginUser() {
+    document.getElementById("loginBtn").addEventListener("click", async function (e) {
+      e.preventDefault();
+
       const email = document.getElementById("login-email").value;
       const password = document.getElementById("login-password").value;
 
-      auth.signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          alert("Login successful!");
-          // Redirect to dashboard.html or customer view page
-          window.location.href = "dashboard.html";
-        })
-        .catch((error) => {
-          alert("Login failed: " + error.message);
-        });
-    }
+      if (!email || !password) {
+        alert("Please fill in both fields.");
+        return;
+      }
+
+      try {
+        await auth.signInWithEmailAndPassword(email, password);
+        alert("Login successful!");
+        window.location.href = "dashboard.html"; // ✅ Redirect on success
+      } catch (error) {
+        alert("Login failed: " + error.message);
+      }
+    });
   </script>
 </body>
 </html>
