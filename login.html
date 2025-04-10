@@ -40,11 +40,10 @@
     </p>
   </div>
 
-  <!-- ✅ Firebase CDN Scripts -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+  <!-- ✅ Firebase v8 Compatibility Mode -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
-  <!-- ✅ Inline Config instead of firebase-config.js -->
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyAXSrdwDDe8Gg6DCjQ_bPSXu-Sh8whPYsE",
@@ -57,11 +56,10 @@
     firebase.initializeApp(firebaseConfig);
   </script>
 
-  <!-- ✅ Login Script -->
   <script>
     const auth = firebase.auth();
 
-    document.getElementById("loginBtn").addEventListener("click", async function (e) {
+    document.getElementById("loginBtn").addEventListener("click", function (e) {
       e.preventDefault();
 
       const email = document.getElementById("login-email").value;
@@ -72,13 +70,14 @@
         return;
       }
 
-      try {
-        await auth.signInWithEmailAndPassword(email, password);
-        alert("Login successful!");
-        window.location.href = "dashboard.html";
-      } catch (error) {
-        alert("Login failed: " + error.message);
-      }
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          alert("Login successful!");
+          window.location.href = "dashboard.html";
+        })
+        .catch((error) => {
+          alert("Login failed: " + error.message);
+        });
     });
   </script>
 </body>
