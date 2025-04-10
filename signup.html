@@ -88,28 +88,25 @@
     </p>
   </div>
 
-  <!-- ✅ Firebase CDN Setup -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
+  <!-- ✅ Firebase Modular SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-  <!-- ✅ Firebase Config -->
-  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyAXSrdwDDe8Gg6DCjQ_bPSXu-Sh8whPYsE",
       authDomain: "scanswaad-28922.firebaseapp.com",
       projectId: "scanswaad-28922",
-      storageBucket: "scanswaad-28922.appspot.com",
+      storageBucket: "scanswaad-28922.firebasestorage.app",
       messagingSenderId: "677748245747",
       appId: "1:677748245747:web:3b893e0d07812121aae386"
     };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-  </script>
 
-  <!-- ✅ Signup Script -->
-  <script>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
     document.getElementById("signupForm").addEventListener("submit", async function (e) {
       e.preventDefault();
 
@@ -134,10 +131,10 @@
       }
 
       try {
-        const userCred = await auth.createUserWithEmailAndPassword(email, password);
+        const userCred = await createUserWithEmailAndPassword(auth, email, password);
         const uid = userCred.user.uid;
 
-        await db.collection("users").doc(uid).set({
+        await setDoc(doc(db, "users", uid), {
           uid,
           firstName,
           lastName,
