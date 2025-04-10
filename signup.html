@@ -12,7 +12,6 @@
     <h2 class="text-3xl font-bold text-center text-white mb-4">Create Your Restaurant Account</h2>
 
     <form class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <!-- First & Last Name -->
       <div>
         <label class="text-sm">First Name</label>
         <input type="text" placeholder="John" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
@@ -22,13 +21,11 @@
         <input type="text" placeholder="Doe" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
-      <!-- Restaurant Name -->
       <div class="md:col-span-2">
         <label class="text-sm">Restaurant Name</label>
         <input type="text" placeholder="ScanSwaad Restaurant" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
-      <!-- Country & State -->
       <div>
         <label class="text-sm">Country</label>
         <select class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
@@ -43,49 +40,41 @@
         <input type="text" placeholder="Maharashtra" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
-      <!-- City -->
       <div>
         <label class="text-sm">City</label>
         <input type="text" placeholder="Mumbai" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
-      <!-- Phone Number -->
       <div>
         <label class="text-sm">Phone Number</label>
         <input type="tel" placeholder="+91 9876543210" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
-      <!-- Address -->
       <div class="md:col-span-2">
         <label class="text-sm">Full Address</label>
         <input type="text" placeholder="3/7 BMC Colony, Dr RP Road, Mulund West" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
-      <!-- Pin Code -->
       <div>
         <label class="text-sm">Pin Code / Zip</label>
         <input type="text" placeholder="400080" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
-      <!-- Email -->
       <div>
         <label class="text-sm">Email</label>
         <input type="email" placeholder="you@example.com" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
-      <!-- Password -->
       <div>
         <label class="text-sm">Password</label>
         <input type="password" placeholder="••••••••" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
-      <!-- Confirm Password -->
       <div>
         <label class="text-sm">Confirm Password</label>
         <input type="password" placeholder="••••••••" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white">
       </div>
 
-      <!-- Sign Up Button -->
       <div class="md:col-span-2">
         <button type="submit" class="w-full py-3 bg-gradient-to-r from-pink-500 to-blue-500 hover:from-pink-600 hover:to-blue-600 rounded-lg text-white font-bold">
           Create Account
@@ -93,14 +82,13 @@
       </div>
     </form>
 
-    <!-- Login Link -->
     <p class="text-center text-sm mt-4 text-gray-300">
       Already have an account?
       <a href="login.html" class="text-blue-400 hover:underline font-medium">Login</a>
     </p>
   </div>
 
-  <!-- ✅ Firebase Setup -->
+  <!-- Firebase Scripts -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
@@ -115,9 +103,7 @@
       appId: "1:677748245747:web:3b893e0d07812121aae386"
     };
     firebase.initializeApp(firebaseConfig);
-  </script>
 
-  <script>
     const auth = firebase.auth();
     const db = firebase.firestore();
 
