@@ -103,7 +103,7 @@
       dropdown.innerHTML = '<option disabled selected>Select Category</option>';
 
       try {
-        const snapshot = await db.collection("categories").get();
+        const snapshot = await db.collection("Categories").get();
         snapshot.forEach((doc) => {
           const option = document.createElement("option");
           option.value = doc.id;
@@ -111,8 +111,8 @@
           dropdown.appendChild(option);
         });
       } catch (error) {
-        console.error("Error fetching categories:", error);
-        dropdown.innerHTML = '<option disabled>Error loading categories</option>';
+        console.error("Error fetching Categories:", error);
+        dropdown.innerHTML = '<option disabled>Error loading Categories</option>';
       }
     }
 
