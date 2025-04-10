@@ -1,1 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - ScanSwaad</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#0f172a] text-white min-h-screen px-6 md:px-16 py-8 font-sans">
+
+  <!-- Header -->
+  <header class="flex justify-between items-center mb-10">
+    <h1 class="text-2xl md:text-3xl font-extrabold tracking-wide">
+      Welcome, <span class="text-cyan-400" id="restaurantName">Restaurant</span> 👋
+    </h1>
+    <a href="index.html" class="px-5 py-2 rounded-md border border-gray-700 text-sm text-white hover:bg-pink-500 transition duration-300">
+      Logout
+    </a>
+  </header>
+
+  <!-- Summary Cards -->
+  <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+    <div class="bg-white/5 rounded-xl p-6 shadow-lg border border-pink-500/20 hover:shadow-pink-500/30 transition">
+      <h3 class="text-lg font-semibold text-white mb-1">Menu Items</h3>
+      <p class="text-3xl font-bold text-pink-400" id="menuCount">0</p>
+    </div>
+    <div class="bg-white/5 rounded-xl p-6 shadow-lg border border-cyan-400/20 hover:shadow-cyan-400/30 transition">
+      <h3 class="text-lg font-semibold text-white mb-1">QR Codes</h3>
+      <p class="text-3xl font-bold text-cyan-400" id="qrCount">0</p>
+    </div>
+    <div class="bg-white/5 rounded-xl p-6 shadow-lg border border-indigo-400/20 hover:shadow-indigo-400/30 transition">
+      <h3 class="text-lg font-semibold text-white mb-1">Menu Views</h3>
+      <p class="text-3xl font-bold text-indigo-300" id="menuViews">0</p>
+    </div>
+    <div class="bg-white/5 rounded-xl p-6 shadow-lg border border-emerald-400/20 hover:shadow-emerald-400/30 transition">
+      <h3 class="text-lg font-semibold text-white mb-1">Rating</h3>
+      <p class="text-3xl font-bold text-emerald-300" id="rating">4.8 ⭐</p>
+    </div>
+  </section>
+
+  <!-- Step 2: Digital Menu Manager -->
+  <section class="bg-white/5 p-6 rounded-xl shadow-lg border border-gray-700 mb-12">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-bold">Menu Manager</h2>
+      <button class="bg-gradient-to-r from-pink-500 to-cyan-400 px-4 py-2 rounded-md text-white hover:scale-105 transition">+ Add New Item</button>
+    </div>
+
+    <!-- Table -->
+    <div class="overflow-auto rounded-xl">
+      <table class="w-full table-auto text-left min-w-[600px]">
+        <thead>
+          <tr class="bg-[#1e293b] text-sm text-cyan-300">
+            <th class="py-3 px-4">Item Name</th>
+            <th class="py-3 px-4">Category</th>
+            <th class="py-3 px-4">Price (₹)</th>
+            <th class="py-3 px-4">Available</th>
+            <th class="py-3 px-4">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="menuTable" class="text-sm text-gray-300">
+          <tr><td colspan="5" class="text-center py-6">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
+  <script src="firebase-config.js"></script>
+
+  <!-- Dynamic Firebase Logic -->
+  <script>
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    window.onload = () => {
+      auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          const uid = user.uid;
+
+          // Fetch user info
+          const userDoc = await db.collection("users").doc(uid).get();
+          const userData = userDoc.data();
+          document.getElementById("restaurantName").innerText = userData.restaurant;
+
+          // Count cards
+          const menuSnap = await db.collection("menus").where("ownerId", "==", uid).get();
+          const qrSnap = await db.collection("qrcodes").where("ownerId", "==", uid).get();
+          document.getElementById("menuCount").innerText = menuSnap.size;
+          document.getElementById("qrCount").innerText = qrSnap.size;
+          document.getElementById("menuViews").innerText = Math.floor(Math.random() * 500) + 50;
+
+          // Fill menu table
+          const tableBody = document.getElementById("menuTable");
+          tableBody.innerHTML = ""; // Clear loading row
+          menuSnap.forEach(doc => {
+            const item = doc.data();
+            tableBody.innerHTML += `
+              <tr class="border-b border-slate-700 hover:bg-slate-800/30">
+                <td class="py-3 px-4">${item.name}</td>
+                <td class="py-3 px-4">${item.category}</td>
+                <td class="py-3 px-4">₹${item.price}</td>
+                <td class="py-3 px-4">${item.available ? "✅" : "❌"}</td>
+                <td class="py-3 px-4">
+                  <button class="text-sm text-blue-400 hover:underline mr-2">Edit</button>
+                  <button class="text-sm text-pink-400 hover:underline">Delete</button>
+                </td>
+              </tr>
+            `;
+          });
+
+        } else {
+          window.location.href = "login.html";
+        }
+      });
+    };
+  </script>
+</body>
+</html>
 
