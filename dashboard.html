@@ -42,10 +42,9 @@
   <section class="bg-white/5 p-6 rounded-xl shadow-lg border border-gray-700 mb-12">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-2xl font-bold">Menu Manager</h2>
-      <button onclick="document.getElementById('modal').classList.remove('hidden')" class="bg-gradient-to-r from-pink-500 to-cyan-400 px-4 py-2 rounded-md text-white hover:scale-105 transition">+ Add New Item</button>
+      <button onclick="openModal()" class="bg-gradient-to-r from-pink-500 to-cyan-400 px-4 py-2 rounded-md text-white hover:scale-105 transition">+ Add New Item</button>
     </div>
 
-    <!-- Table -->
     <div class="overflow-auto rounded-xl">
       <table class="w-full table-auto text-left min-w-[600px]">
         <thead>
@@ -88,21 +87,33 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js"></script>
   <script src="firebase-config.js"></script>
 
-  <!-- Dynamic Logic -->
+  <!-- Logic -->
   <script>
     const auth = firebase.auth();
     const db = firebase.firestore();
     const storage = firebase.storage();
 
-    async function populateCategories() {
+    function openModal() {
+      document.getElementById("modal").classList.remove("hidden");
+      loadCategories();
+    }
+
+    async function loadCategories() {
       const dropdown = document.getElementById("itemCategory");
-      const snapshot = await db.collection("categories").get();
-      snapshot.forEach(doc => {
-        const option = document.createElement("option");
-        option.value = doc.id;
-        option.textContent = doc.data().name;
-        dropdown.appendChild(option);
-      });
+      dropdown.innerHTML = '<option disabled selected>Select Category</option>';
+
+      try {
+        const snapshot = await db.collection("categories").get();
+        snapshot.forEach((doc) => {
+          const option = document.createElement("option");
+          option.value = doc.id;
+          option.textContent = doc.data().name;
+          dropdown.appendChild(option);
+        });
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        dropdown.innerHTML = '<option disabled>Error loading categories</option>';
+      }
     }
 
     async function addItem() {
@@ -135,11 +146,10 @@
       window.location.reload();
     }
 
-    window.onload = async () => {
+    window.onload = () => {
       auth.onAuthStateChanged(async (user) => {
         if (user) {
           const uid = user.uid;
-
           const userDoc = await db.collection("users").doc(uid).get();
           const userData = userDoc.data();
           document.getElementById("restaurantName").innerText = userData.restaurant;
@@ -166,31 +176,11 @@
                 </td>
               </tr>`;
           });
-
-          await populateCategories();
         } else {
           window.location.href = "login.html";
         }
       });
     };
-    async function loadCategories() {
-  const select = document.getElementById("categorySelect");
-  select.innerHTML = '<option disabled selected>Select Category</option>';
-
-  try {
-    const snapshot = await db.collection("categories").get();
-    snapshot.forEach((doc) => {
-      const cat = doc.data().name;
-      const option = document.createElement("option");
-      option.value = cat;
-      option.textContent = cat;
-      select.appendChild(option);
-    });
-  } catch (error) {
-    console.error("Error fetching categories:", error);
-    select.innerHTML = '<option disabled>Error loading categories</option>';
-  }
-}
   </script>
 </body>
 </html>
