@@ -100,4 +100,66 @@
     </p>
   </div>
 </body>
+  <!-- ✅ Add this to the bottom of your signup.html before </body> -->
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
+<script src="firebase-config.js"></script>
+
+<script>
+  // Init Firebase services
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  // Handle sign-up event
+  document.querySelector("button").addEventListener("click", async function (e) {
+    e.preventDefault();
+
+    // Collect form data
+    const firstName = document.querySelector('input[placeholder="John"]').value;
+    const lastName = document.querySelector('input[placeholder="Doe"]').value;
+    const restaurant = document.querySelector('input[placeholder*="Restaurant"]').value;
+    const country = document.querySelector("select").value;
+    const state = document.querySelector('input[placeholder="Maharashtra"]').value;
+    const city = document.querySelector('input[placeholder="Mumbai"]').value;
+    const phone = document.querySelector('input[placeholder^="+91"]').value;
+    const address = document.querySelector('input[placeholder*="Dr RP Road"]').value;
+    const pincode = document.querySelector('input[placeholder="400080"]').value;
+    const email = document.querySelector('input[placeholder="you@example.com"]').value;
+    const password = document.querySelectorAll("input[type='password']")[0].value;
+    const confirmPassword = document.querySelectorAll("input[type='password']")[1].value;
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    try {
+      const userCred = await auth.createUserWithEmailAndPassword(email, password);
+      const uid = userCred.user.uid;
+
+      // Store extra info in Firestore
+      await db.collection("users").doc(uid).set({
+        firstName,
+        lastName,
+        restaurant,
+        country,
+        state,
+        city,
+        phone,
+        address,
+        pincode,
+        email,
+        createdAt: new Date()
+      });
+
+      alert("Account created successfully!");
+      window.location.href = "dashboard.html";
+    } catch (error) {
+      alert("Error: " + error.message);
+    }
+  });
+</script>
 </html>
